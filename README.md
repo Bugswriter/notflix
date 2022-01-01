@@ -6,6 +6,8 @@
 <img src="./preview.gif" alt="Video Preview" width="500px">
 </p>
 
+> Watch my video (subscribe) - [bugswriter's notflix](https://youtu.be/RFJCL9C46Mc)
+
 ### How does this work?
 
 This is a shell script. It scrapes 1337x and gets the magnet link.

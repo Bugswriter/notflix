@@ -3,7 +3,7 @@
 
 ##  
 
-<img src="https://im5.ezgif.com/tmp/ezgif-5-6848536815.gif" alt="Video Preview Gif" align="right" width="500px"/>
+-![Video Preview](https://im5.ezgif.com/tmp/ezgif-5-6848536815.gif)
 
 ### How does this work?
 

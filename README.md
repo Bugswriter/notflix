@@ -3,7 +3,7 @@
 
 ##  
 
-![Video Preview](./preview.gif)
+<img src="./preview.gif" align="center" width="500px">
 
 ### How does this work?
 

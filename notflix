@@ -57,7 +57,10 @@ LINE=$(paste -d\   $cachedir/size.bw $cachedir/seedleech.bw $cachedir/titles.bw 
   cut -d\- -f1 |
   awk '{$1=$1; print}')
 
-
+if [ -z "$LINE" ]; then
+  notify-send "😔 No Result selected. Exiting... 🔴"
+  exit 0
+fi
 notify-send "🔍 Searching Magnet seeds 🧲"
 url=$(head -n $LINE $cachedir/links.bw | tail -n +$LINE)
 fullURL="${baseurl}${url}/"

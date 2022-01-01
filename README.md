@@ -3,7 +3,7 @@
 
 ##  
 
--![Video Preview](https://im5.ezgif.com/tmp/ezgif-5-6848536815.gif)
+![Video Preview](./preview.gif)
 
 ### How does this work?
 

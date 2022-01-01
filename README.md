@@ -21,8 +21,6 @@ For scraping, the script uses simple gnu utils like sed, awk, paste, cut.
 
 ## Installation
 
-### cURL
-
 cURL **notflix** to your **$PATH** and give execute permissions.
 
 ```sh
@@ -30,8 +28,11 @@ sudo curl -sL "https://raw.githubusercontent.com/Bugswriter/notflix/master/notfl
 sudo chmod +x /usr/local/bin/notflix
 ```
 
-- To update, just do `curl` again, no need to `chmod` anymore.
-- To uninstall, simply remove `notflix` from your **$PATH**, for example
+*To update, just do `curl` again, no need to `chmod` anymore.*
+
+## Uninstall
+
+To uninstall, simply remove `notflix` from your **$PATH**, for example
 
 ```bash
 sudo rm -f /usr/local/bin/notflix

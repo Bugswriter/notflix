@@ -6,7 +6,7 @@
 <img src="./preview.gif" alt="Video Preview" width="500px">
 </p>
 
-> Watch my video (subscribe) - [bugswriter's notflix](https://youtu.be/RFJCL9C46Mc)
+> Watch my video on this - [bugswriter's notflix](https://youtu.be/RFJCL9C46Mc)
 
 ### How does this work?
 

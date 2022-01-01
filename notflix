@@ -1,5 +1,8 @@
 #!/bin/sh
 
+menu="dmenu -i -l 25"
+baseurl="https://1337x.wtf"
+cachedir="$HOME/.cache/notflix"
 dependencies="dmenu notify-send curl mpv webtorrent"
 
 die() {
@@ -18,14 +21,12 @@ check_dependencies() {
 	done
 }
 
+setup() {
+	mkdir -p "$cachedir" 2>/dev/null>&2
+}
+
 check_dependencies
-
-mkdir -p $HOME/.cache/notflix
-
-menu="fzf"
-menu="dmenu -i -l 25"
-baseurl="https://1337x.wtf"
-cachedir="$HOME/.cache/notflix"
+setup
 
 if [ -z $1 ]; then
   query=$(dmenu -p "Search Torrent: " <&-)

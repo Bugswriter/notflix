@@ -3,7 +3,7 @@
 
 ##  
 
-<img src="http://0x0.st/os4a.gif" alt="Video Preview Gif" align="right" width="500px"/>
+<img src="http://0x0.st/os4j.gif" alt="Video Preview Gif" align="right" width="500px"/>
 
 ### How does this work?
 

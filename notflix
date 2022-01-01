@@ -10,7 +10,7 @@ baseurl="https://1337x.wtf"
 cachedir="$HOME/.cache/notflix"
 
 if [ -z $1 ]; then
-  query=$(dmenu -p "Search Torrent: " <&-)
+  query=$(echo "" | dmenu -p "Search Torrent: ")
 else
   query=$1
 fi

@@ -29,13 +29,12 @@ main() {
 	check_dependencies
 	setup
 
-	if [ -z $1 ]; then
-		query=$(dmenu -p "Search Torrent: " <&-)
-	else
+	[ $# -eq 0 ] &&
+		query=$(dmenu -p "Search Torrent: " <&-) ||
 		query=$1
-	fi
 
-	query="$(sed 's/ /+/g' <<<$query)"
+	# make it queryable
+	query="$(printf "%s" "$query" | tr '[:blank:]' '+')"
 
 	#curl -s https://1337x.to/category-search/$query/Movies/1/ > $cachedir/tmp.html
 	curl -s $baseurl/search/$query/1/ > $cachedir/tmp.html

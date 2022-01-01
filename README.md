@@ -2,8 +2,9 @@
 <p align="center">f@#k netflix use notflix a tool which search magnet links and stream it with webtorrent</p>
 
 ##  
-
-<img src="./preview.gif" align="center" width="500px">
+<p align="center">
+<img src="./preview.gif" alt="Video Preview" width="500px">
+</p>
 
 ### How does this work?
 

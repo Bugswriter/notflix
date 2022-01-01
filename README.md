@@ -1,9 +1,9 @@
 <h1 align="center">NOTFLIX</h1>
-<p align="center">fk netflix use notflix a tool which search magnet links and stream it with [webtorrent](https://webtorrent.io/)</p>
+<p align="center">fk netflix use notflix a tool which search magnet links and stream it with <a href="https://webtorrent.io/">webtorrent</a></p>
 
 ##  
 
-<img src="http://0x0.st/os4j.gif" alt="Video Preview Gif" align="right" width="500px"/>
+<img src="https://im5.ezgif.com/tmp/ezgif-5-6848536815.gif" alt="Video Preview Gif" align="right" width="500px"/>
 
 ### How does this work?
 

@@ -30,6 +30,19 @@ $ sudo chmod +x /usr/local/bin/notflix
 - To update, just do `curl` again, no need to `chmod` anymore.
 - To uninstall, simply remove `notflix` from your **$PATH**, for example `sudo rm -f /usr/local/bin/notflix.
 
+## How to Use
+Since it can run in terminal too. There are two ways to use it:
+
+### Dmenu
+It is default in Dmenu so don't worry if you are using dmenu.
+
+### Terminal
+Because it is default in dmenu just comment dmenu variable on ```line 8``` by just adding a ```#``` :
+
+```menu="dmenu -i -l 25"``` (before)
+
+```#menu="dmenu -i -l 25"``` (after)
+
 ## License
 This project is licensed under [GPL-3.0](https://raw.githubusercontent.com/Illumina/licenses/master/gpl-3.0.txt).
 

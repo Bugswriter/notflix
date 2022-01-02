@@ -1,74 +1,89 @@
 #!/bin/sh
 
-# Dependencies - webtorrent, mpv
-
-mkdir -p $HOME/.cache/notflix
-
 menu="dmenu -i -l 25"
 baseurl="https://1337x.wtf"
 cachedir="$HOME/.cache/notflix"
+dependencies="dmenu notify-send curl mpv webtorrent"
 
-if [ -z $1 ]; then
-  query=$(dmenu -p "Search Torrent: " <&-)
-else
-  query=$1
-fi
+die() {
+	if tty -s; then
+		printf "notflix: %s\n" "$@" >&2
+	else
+		notify-send "$@" -i "NONE"
+	fi
+	exit 1
+}
 
-query="$(echo $query | sed 's/ /+/g')"
+check_dependencies() {
+	for dependency in $dependencies; do
+		command -v "$dependency" 2>/dev/null>&2 ||
+			die "$dependency is required to run this script, but it is not installed"
+	done
+}
 
-#curl -s https://1337x.to/category-search/$query/Movies/1/ > $cachedir/tmp.html
-curl -s $baseurl/search/$query/1/ > $cachedir/tmp.html
+setup() {
+	mkdir -p "$cachedir" 2>/dev/null>&2
+}
 
-# Get Titles
-grep -o '<a href="/torrent/.*</a>' $cachedir/tmp.html |
-  sed 's/<[^>]*>//g' > $cachedir/titles.bw
+main() {
+	check_dependencies
+	setup
 
-result_count=$(wc -l $cachedir/titles.bw | awk '{print $1}')
-if [ "$result_count" -lt 1 ]; then
-  notify-send "😔 No Result found. Try again 🔴" -i "NONE"
-  exit 0
-fi
+	[ $# -eq 0 ] &&
+		query=$(dmenu -p "Search Torrent: " <&-) ||
+		query=$1
 
-# Seeders and Leechers
-grep -o '<td class="coll-2 seeds.*</td>\|<td class="coll-3 leeches.*</td>' $cachedir/tmp.html |
-  sed 's/<[^>]*>//g' | sed 'N;s/\n/ /' > $cachedir/seedleech.bw
+	# make it queryable
+	query="$(printf "%s" "$query" | tr '[:blank:]' '+')"
 
-# Size
-grep -o '<td class="coll-4 size.*</td>' $cachedir/tmp.html |
-  sed 's/<span class="seeds">.*<\/span>//g' |
-  sed -e 's/<[^>]*>//g' > $cachedir/size.bw
+	# cache result
+	curl -s "$baseurl/search/$query/1/" -o "$cachedir/tmp.html"
 
-# Links
-grep -E '/torrent/' $cachedir/tmp.html |
-  sed -E 's#.*(/torrent/.*)/">.*/#\1#' |
-  sed 's/td>//g' > $cachedir/links.bw
+	# get search result titles (grep exit code will be non-zero if no match is found)
+	grep -Po '<a href="/torrent/.*>\K.*(?=</a>)' "$cachedir/tmp.html" > "$cachedir/titles.bw" ||
+		die '😔 No Result found. Try again 🔴'
 
-# Clearning up some data to display
-sed 's/\./ /g; s/\-/ /g' $cachedir/titles.bw |
-  sed 's/[^A-Za-z0-9 ]//g' | tr -s " " > $cachedir/tmp && mv $cachedir/tmp $cachedir/titles.bw
+	# get seeders and leechers count
+	grep -Po '<td class="coll-2 seeds">\K[0-9]+(?=</td>)' "$cachedir/tmp.html" > "$cachedir/seeders.bw"
+	grep -Po '<td class="coll-3 leeches">\K[0-9]+(?=</td>)' "$cachedir/tmp.html" > "$cachedir/leechers.bw"
 
-awk '{print NR " - ["$0"]"}' $cachedir/size.bw > $cachedir/tmp && mv $cachedir/tmp $cachedir/size.bw
-awk '{print "[S:"$1 ", L:"$2"]" }' $cachedir/seedleech.bw > $cachedir/tmp && mv $cachedir/tmp $cachedir/seedleech.bw
+	# get torrent size
+	grep -Po '<td class="coll-4 size .*">\K.*(?=<span)' "$cachedir/tmp.html" > "$cachedir/size.bw"
 
-# Getting the line number
-LINE=$(paste -d\   $cachedir/size.bw $cachedir/seedleech.bw $cachedir/titles.bw |
-  $menu |
-  cut -d\- -f1 |
-  awk '{$1=$1; print}')
+	# get links
+	grep -Po '<a href="/\Ktorrent/.*(?=/")' "$cachedir/tmp.html" > "$cachedir/links.bw"
 
-if [ -z "$LINE" ]; then
-  notify-send "😔 No Result selected. Exiting... 🔴" -i "NONE"
-  exit 0
-fi
-notify-send "🔍 Searching Magnet seeds 🧲" -i "NONE"
-url=$(head -n $LINE $cachedir/links.bw | tail -n +$LINE)
-fullURL="${baseurl}${url}/"
+	# make titles more readable and remove non alphanumeric characters
+	sed 's/\./ /g; s/\-/ /g' "$cachedir/titles.bw" | sed 's/[^A-Za-z0-9 ]//g' |
+		tr -s " " > "$cachedir/tmp" && mv "$cachedir/tmp" "$cachedir/titles.bw"
 
-# Requesting page for magnet link
-curl -s $fullURL > $cachedir/tmp.html
-magnet=$(grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" $cachedir/tmp.html | head -n 1) 
+	# merge seeders and leechers results in the format [S: num_seeders, L: num_leechers]
+	paste -d ' ' "$cachedir/seeders.bw" "$cachedir/leechers.bw" |
+		awk '{ print "[S: "$1", L: "$2"]" }' > "$cachedir/seedleech.bw"
 
-webtorrent "$magnet" --mpv
+	# prefix the size of the torrent with the line number
+	awk '{print NR " - ["$0"]"}' "$cachedir/size.bw" > "$cachedir/tmp" && mv "$cachedir/tmp" "$cachedir/size.bw"
 
-# Simple notification
-notify-send "🎥 Enjoy Watching ☺️ " -i "NONE"
+	# getting the selected line number
+	selected=$(paste -d ' ' "$cachedir/size.bw" "$cachedir/seedleech.bw" "$cachedir/titles.bw" |
+		$menu |
+		cut -d '-' -f 1 |
+		tr -d ' ')
+
+	[ -z "$selected" ] && die "😔 No Result selected. Exiting... 🔴"
+  
+	notify-send "🔍 Searching Magnet seeds 🧲" -i "NONE"
+	relativeurl=$(head -n "$selected" "$cachedir/links.bw" | tail -n +"$selected")
+	fullurl="${baseurl}/${relativeurl}/"
+
+	# requesting page for magnet link
+	curl -s "$fullurl" -o "$cachedir/tmp.html"
+	magnet=$(grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" "$cachedir/tmp.html" | head -n 1) 
+
+	# simple notification
+	notify-send "🎥 Enjoy Watching ☺️ " -i "NONE"
+	
+	webtorrent "$magnet" --mpv
+}
+
+main "$@"

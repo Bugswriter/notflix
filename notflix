@@ -80,10 +80,10 @@ main() {
 	curl -s "$fullurl" -o "$cachedir/tmp.html"
 	magnet=$(grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" "$cachedir/tmp.html" | head -n 1) 
 
-	webtorrent "$magnet" --mpv
-
 	# simple notification
 	notify-send "🎥 Enjoy Watching ☺️ "	
+	
+	webtorrent "$magnet" --mpv
 }
 
 main "$@"

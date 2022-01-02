@@ -17,6 +17,7 @@ For scraping, the script uses simple gnu utils like sed, awk, paste, cut.
 ## Requirements
 
 * [webtorrent](https://webtorrent.io/) - A tool to stream torrent. `npm install webtorrent-cli -g`
+* [dmenu](https://tools.suckless.org/dmenu/) - A dynamic menu system. `git clone https://git.suckless.org/dmenu && cd dmenu && sudo make install`
 
 ## Installation
 
@@ -29,6 +30,18 @@ $ sudo chmod +x /usr/local/bin/notflix
 ```
 - To update, just do `curl` again, no need to `chmod` anymore.
 - To uninstall, simply remove `notflix` from your **$PATH**, for example `sudo rm -f /usr/local/bin/notflix.
+
+### Arch User Repository
+An AUR package exists for **notflix** for Arch Linux, Manjaro Linux, and their derivatives as `notflix-git`. 
+This will handle all dependencies properly except for dmenu because some users install dmenu outside of their package manager.
+You can install **notflix** with your favorite AUR helper:
+
+Examples:
+
+- yay: `sudo yay -S notflix-git`
+- pamac (Manjaro's Default): `sudo pamac install notflix-git`
+- paru: `sudo paru -S notflix-git`
+- pikaur: `pikaur -S notflix-git`
 
 ## License
 This project is licensed under [GPL-3.0](https://raw.githubusercontent.com/Illumina/licenses/master/gpl-3.0.txt).

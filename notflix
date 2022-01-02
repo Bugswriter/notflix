@@ -4,13 +4,17 @@
 
 mkdir -p $HOME/.cache/notflix
 
-menu="fzf"
-menu="dmenu -i -l 25"
+menu="rofi -show -dmenu -theme gruvbox-dark -p Results"
+#menu="dmenu -i -l 25"
 baseurl="https://1337x.wtf"
 cachedir="$HOME/.cache/notflix"
 
 if [ -z $1 ]; then
-  query=$(dmenu -p "Search Torrent: " <&-)
+  query=$(rofi -show -dmenu -theme dmenu -p "Search Torrent: ")
+  # don't show notification if the user haven't entered any query for search
+  if [ -z "$query" ]; then
+    exit 0;
+  fi
 else
   query=$1
 fi
@@ -58,7 +62,7 @@ LINE=$(paste -d\   $cachedir/size.bw $cachedir/seedleech.bw $cachedir/titles.bw 
   awk '{$1=$1; print}')
 
 if [ -z "$LINE" ]; then
-  notify-send "😔 No Result selected. Exiting... 🔴" -i "NONE"
+  notify-send "😔 No Result selected. Exiting... 🔴" -i "NONE" -t 800
   exit 0
 fi
 notify-send "🔍 Searching Magnet seeds 🧲" -i "NONE"

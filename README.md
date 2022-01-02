@@ -16,7 +16,7 @@ For scraping, the script uses simple gnu utils like sed, awk, paste, cut.
 
 ## Requirements
 
-* [webtorrent](https://webtorrent.io/) - A tool to stream torrent. `sudo npm install webtorrent -g`
+* [webtorrent](https://webtorrent.io/) - A tool to stream torrent. `npm install webtorrent-cli -g`
 
 ## Installation
 

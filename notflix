@@ -14,6 +14,11 @@ else
   query=$1
 fi
 
+if [ -z "$query" ]; then
+  notify-send "😔 No query given. Exiting... 🔴" -i "NONE"
+  exit 0
+fi
+
 query="$(echo "$query" | sed 's/ /+/g')"
 
 #curl -s https://1337x.to/category-search/"$query"/Movies/1/ > "$cachedir"/tmp.html
@@ -61,6 +66,7 @@ if [ -z "$LINE" ]; then
   notify-send "😔 No Result selected. Exiting... 🔴" -i "NONE"
   exit 0
 fi
+
 notify-send "🔍 Searching Magnet seeds 🧲" -i "NONE"
 url=$(head -n "$LINE" "$cachedir"/links.bw | tail -n +"$LINE")
 fullURL="${baseurl}${url}/"

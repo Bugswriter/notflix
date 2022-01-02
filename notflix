@@ -14,13 +14,9 @@ die() {
 	exit 1
 }
 
-is_installed() {
-	which "$1" 2>/dev/null>&2
-}
-
 check_dependencies() {
 	for dependency in $dependencies; do
-		is_installed "$dependency" || 
+		command -v "$dependency" 2>/dev/null>&2 ||
 			die "$dependency is required to run this script, but it is not installed"
 	done
 }

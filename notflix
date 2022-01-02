@@ -6,7 +6,9 @@ cachedir="$HOME/.cache/notflix"
 dependencies="dmenu notify-send curl mpv webtorrent"
 
 die() {
-	printf "notflix: %s\n" "$@" >&2
+	tty -s &&
+		printf "notflix: %s\n" "$@" >&2 ||
+		notify-send "$@"
 	exit 1
 }
 

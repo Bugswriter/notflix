@@ -2,11 +2,11 @@
 
 # Dependencies - webtorrent, mpv
 
-mkdir -p "$HOME"/.cache/notflix
-
 menu="dmenu -i -l 25"
 baseurl="https://1337x.wtf"
-cachedir="$HOME/.cache/notflix"
+cachedir=${XDG_CACHE_HOME:-$HOME/.cache/notflix}
+
+[ -d "$cachedir" ] && mkdir -p "$cachedir"
 
 if [ -z "$1" ]; then
   query=$(echo "" | dmenu -p "Search Torrent: ")
@@ -75,7 +75,7 @@ fullURL="${baseurl}${url}/"
 curl -s "$fullURL" > "$cachedir"/tmp.html
 magnet=$(grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" "$cachedir"/tmp.html | head -n 1) 
 
-webtorrent "$magnet" --mpv
-
 # Simple notification
 notify-send "🎥 Enjoy Watching ☺️ " -i "NONE"
+
+webtorrent "$magnet" --mpv

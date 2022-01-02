@@ -4,7 +4,6 @@
 
 mkdir -p $HOME/.cache/notflix
 
-menu="fzf"
 menu="dmenu -i -l 25"
 baseurl="https://1337x.wtf"
 cachedir="$HOME/.cache/notflix"
@@ -15,7 +14,7 @@ else
   query=$1
 fi
 
-query="$(sed 's/ /+/g' <<<$query)"
+query="$(echo $query | sed 's/ /+/g')"
 
 #curl -s https://1337x.to/category-search/$query/Movies/1/ > $cachedir/tmp.html
 curl -s $baseurl/search/$query/1/ > $cachedir/tmp.html

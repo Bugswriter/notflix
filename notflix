@@ -51,7 +51,8 @@ awk '{print NR " - ["$0"]"}' "$cachedir"/size.bw > "$cachedir"/tmp && mv "$cache
 awk '{print "[S:"$1 ", L:"$2"]" }' "$cachedir"/seedleech.bw > "$cachedir"/tmp && mv "$cachedir"/tmp "$cachedir"/seedleech.bw
 
 # Getting the line number
-LINE=$(paste -d\   "$cachedir"/size.bw "$cachedir"/seedleech.bw "$cachedir"/titles.bw |
+LINE=$(paste -d'	' "$cachedir"/size.bw "$cachedir"/seedleech.bw "$cachedir"/titles.bw |
+  column -s'	' -t |
   $menu |
   cut -d'-' -f1 |
   awk '{$1=$1; print}')

@@ -39,15 +39,9 @@ main() {
 	# cache result
 	curl -s "$baseurl/search/$query/1/" -o "$cachedir/tmp.html"
 
-	# Get Titles
-	grep -o '<a href="/torrent/.*</a>' $cachedir/tmp.html |
-		sed 's/<[^>]*>//g' > $cachedir/titles.bw
-
-	result_count=$(wc -l $cachedir/titles.bw | awk '{print $1}')
-	if [ "$result_count" -lt 1 ]; then
-		notify-send "😔 No Result found. Try again 🔴"
-		exit 0
-	fi
+	# get search result titles (grep exit code will be non-zero if no match is found)
+	grep -Po '<a href="/torrent/.*>\K.*(?=</a>)' "$cachedir/tmp.html" > "$cachedir/titles.bw" ||
+		die '😔 No Result found. Try again 🔴'
 
 	# Seeders and Leechers
 	grep -o '<td class="coll-2 seeds.*</td>\|<td class="coll-3 leeches.*</td>' $cachedir/tmp.html |

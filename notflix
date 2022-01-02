@@ -9,7 +9,7 @@ die() {
 	if tty -s; then
 		printf "notflix: %s\n" "$@" >&2
 	else
-		notify-send "$@"
+		notify-send "$@" -i "NONE"
 	fi
 	exit 1
 }
@@ -70,7 +70,9 @@ main() {
 		cut -d '-' -f 1 |
 		tr -d ' ')
 
-	notify-send "🔍 Searching Magnet seeds 🧲"
+	[ -z "$selected" ] && die "😔 No Result selected. Exiting... 🔴"
+  
+	notify-send "🔍 Searching Magnet seeds 🧲" -i "NONE"
 	relativeurl=$(head -n "$selected" "$cachedir/links.bw" | tail -n +"$selected")
 	fullurl="${baseurl}/${relativeurl}/"
 
@@ -79,7 +81,7 @@ main() {
 	magnet=$(grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" "$cachedir/tmp.html" | head -n 1) 
 
 	# simple notification
-	notify-send "🎥 Enjoy Watching ☺️ "	
+	notify-send "🎥 Enjoy Watching ☺️ " -i "NONE"
 	
 	webtorrent "$magnet" --mpv
 }

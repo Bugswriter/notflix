@@ -5,7 +5,6 @@
 mkdir -p $HOME/.cache/notflix
 
 menu="dmenu -i -l 25"
-baseurl="https://1337x.to"
 cachedir="$HOME/.cache/notflix"
 
 if [ -z $1 ]; then
@@ -16,8 +15,26 @@ fi
 
 query="$(echo $query | sed 's/ /+/g')"
 
-#curl -s https://1337x.to/category-search/$query/Movies/1/ > $cachedir/tmp.html
-curl -s $baseurl/search/$query/1/ > $cachedir/tmp.html
+declare -a domains
+domains+=("1337x.to")
+domains+=("1337x.st")
+domains+=("1337x.ws")
+domains+=("1337x.eu")
+domains+=("1337x.se")
+domains+=("1337x.is")
+domains+=("1337x.gd")
+domains+=("1337x.wtf")  # This is not an official 1337x domain, be careful when using it!
+found=false
+for domain in ${domains[@]}; do
+  #curl -s https://$domain/category-search/$query/Movies/1/ > $cachedir/tmp.html || continue
+  curl -s https://$domain/search/$query/1/ > $cachedir/tmp.html || continue
+  found=true
+  break
+done
+if ! $found; then
+  notify-send "😔 Couldn't connect to any 1337x domain. Exiting... 🔴" -i "NONE"
+  exit 0
+fi
 
 # Get Titles
 grep -o '<a href="/torrent/.*</a>' $cachedir/tmp.html |

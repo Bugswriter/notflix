@@ -25,7 +25,7 @@ grep -o '<a href="/torrent/.*</a>' $cachedir/tmp.html |
 
 result_count=$(wc -l $cachedir/titles.bw | awk '{print $1}')
 if [ "$result_count" -lt 1 ]; then
-  notify-send "😔 No Result found. Try again 🔴" -i "NONE"
+  notify-send "No Result found. Try again" -i "NONE"
   exit 0
 fi
 
@@ -57,10 +57,10 @@ LINE=$(paste -d\   $cachedir/size.bw $cachedir/seedleech.bw $cachedir/titles.bw 
   awk '{$1=$1; print}')
 
 if [ -z "$LINE" ]; then
-  notify-send "😔 No Result selected. Exiting... 🔴" -i "NONE"
+  notify-send "No Result selected. Exiting..." -i "NONE"
   exit 0
 fi
-notify-send "🔍 Searching Magnet seeds 🧲" -i "NONE"
+notify-send "Searching Magnet seeds" -i "NONE"
 url=$(head -n $LINE $cachedir/links.bw | tail -n +$LINE)
 fullURL="${baseurl}${url}/"
 
@@ -71,4 +71,4 @@ magnet=$(grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" $cachedir/tmp.html | head 
 webtorrent "$magnet" --mpv
 
 # Simple notification
-notify-send "🎥 Enjoy Watching ☺️ " -i "NONE"
+notify-send "Enjoy Watching" -i "NONE"

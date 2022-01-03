@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Dependencies - webtorrent, mpv
 
@@ -9,7 +9,8 @@ baseurl="https://1337x.wtf"
 cachedir="$HOME/.cache/notflix"
 
 if [ -z $1 ]; then
-  query=$(dmenu -p "Search Torrent: " <&-)
+  echo "Search for Shows:  "
+  read query
 else
   query=$1
 fi
@@ -25,7 +26,7 @@ grep -o '<a href="/torrent/.*</a>' $cachedir/tmp.html |
 
 result_count=$(wc -l $cachedir/titles.bw | awk '{print $1}')
 if [ "$result_count" -lt 1 ]; then
-  notify-send "😔 No Result found. Try again 🔴" -i "NONE"
+  echo "😔 No Result found. Try again 🔴"
   exit 0
 fi
 
@@ -51,24 +52,20 @@ awk '{print NR " - ["$0"]"}' $cachedir/size.bw > $cachedir/tmp && mv $cachedir/t
 awk '{print "[S:"$1 ", L:"$2"]" }' $cachedir/seedleech.bw > $cachedir/tmp && mv $cachedir/tmp $cachedir/seedleech.bw
 
 # Getting the line number
-LINE=$(paste -d\   $cachedir/size.bw $cachedir/seedleech.bw $cachedir/titles.bw |
-  $menu |
-  cut -d\- -f1 |
-  awk '{$1=$1; print}')
+echo "$(paste -d\  $cachedir/size.bw $cachedir/titles.bw $cachedir/seedleech.bw)"
+echo "Select your stream"
+read LINE
 
 if [ -z "$LINE" ]; then
-  notify-send "😔 No Result selected. Exiting... 🔴" -i "NONE"
+  echo "😔 No Result selected. Exiting... 🔴"
   exit 0
 fi
-notify-send "🔍 Searching Magnet seeds 🧲" -i "NONE"
+echo "🔍 Searching Magnet seeds 🧲"
 url=$(head -n $LINE $cachedir/links.bw | tail -n +$LINE)
 fullURL="${baseurl}${url}/"
 
 # Requesting page for magnet link
 curl -s $fullURL > $cachedir/tmp.html
-magnet=$(grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" $cachedir/tmp.html | head -n 1) 
+magnet=$(grep -Eo "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" $cachedir/tmp.html | head -n 1) 
 
 webtorrent "$magnet" --mpv
-
-# Simple notification
-notify-send "🎥 Enjoy Watching ☺️ " -i "NONE"

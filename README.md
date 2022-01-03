@@ -1,5 +1,5 @@
 <h1 align="center">NOTFLIX</h1>
-<p align="center">Removed the emojis from the script as its kinda cringe imo</p>
+<p align="center">Removed the emojis from the script as its kinda cringe imo and made it less able to search porn, by only searching movies and not everything in general. Although it is still possible although, just it wont be as likely to come up</p>
 
 ##
 <p align="center">

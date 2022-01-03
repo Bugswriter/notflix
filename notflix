@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Dependencies - webtorrent, mpv
+# Dependencies - webtorrent-cli, mpv
 
 mkdir -p $HOME/.cache/notflix
 

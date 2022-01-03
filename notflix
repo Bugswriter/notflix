@@ -4,7 +4,6 @@
 
 mkdir -p $HOME/.cache/notflix
 
-menu="fzf"
 menu="dmenu -i -l 25"
 baseurl="https://1337x.to"
 cachedir="$HOME/.cache/notflix"
@@ -15,7 +14,7 @@ else
   query=$1
 fi
 
-query="$(sed 's/ /+/g' <<<$query)"
+query="$(echo $query | sed 's/ /+/g')"
 
 #curl -s https://1337x.to/category-search/$query/Movies/1/ > $cachedir/tmp.html
 curl -s $baseurl/search/$query/1/ > $cachedir/tmp.html
@@ -26,7 +25,7 @@ grep -o '<a href="/torrent/.*</a>' $cachedir/tmp.html |
 
 result_count=$(wc -l $cachedir/titles.bw | awk '{print $1}')
 if [ "$result_count" -lt 1 ]; then
-  notify-send "😔 No Result found. Try again 🔴"
+  notify-send "😔 No Result found. Try again 🔴" -i "NONE"
   exit 0
 fi
 
@@ -57,8 +56,11 @@ LINE=$(paste -d\   $cachedir/size.bw $cachedir/seedleech.bw $cachedir/titles.bw 
   cut -d\- -f1 |
   awk '{$1=$1; print}')
 
-
-notify-send "🔍 Searching Magnet seeds 🧲"
+if [ -z "$LINE" ]; then
+  notify-send "😔 No Result selected. Exiting... 🔴" -i "NONE"
+  exit 0
+fi
+notify-send "🔍 Searching Magnet seeds 🧲" -i "NONE"
 url=$(head -n $LINE $cachedir/links.bw | tail -n +$LINE)
 fullURL="${baseurl}${url}/"
 
@@ -69,4 +71,4 @@ magnet=$(grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" $cachedir/tmp.html | head 
 webtorrent "$magnet" --mpv
 
 # Simple notification
-notify-send "🎥 Enjoy Watching ☺️ "
+notify-send "🎥 Enjoy Watching ☺️ " -i "NONE"

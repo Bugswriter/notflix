@@ -4,9 +4,28 @@
 
 mkdir -p $HOME/.cache/notflix
 
+menu="fzf"
 menu="dmenu -i -l 25"
 baseurl="https://1337x.wtf"
 cachedir="$HOME/.cache/notflix"
+
+category=$(dmenu -p "Movies? TV? Documentaries? Anime? (1,2,3,4) [NO INPUT = MOVIES]: " <&-)
+
+if [ "$category" == "1" ] || [ "$category" == "" ]; then # If no input, then it defaults to Movies category
+  category="Movies"
+fi
+
+if [ "$category" == "2" ]; then
+  category="TV"
+fi
+
+if [ "$category" == "3" ]; then
+  category="Documentaries"
+fi
+
+if [ "$category" == "4" ]; then
+  category="Anime"
+fi
 
 if [ -z $1 ]; then
   query=$(dmenu -p "Search Torrent: " <&-)

@@ -1,5 +1,5 @@
 <h1 align="center">NOTFLIX</h1>
-<p align="center">f@#k netflix use notflix a tool which search magnet links and stream it with webtorrent</p>
+<p align="center">Removed the emojis from the script as its kinda cringe imo</p>
 
 ##
 <p align="center">

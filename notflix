@@ -17,7 +17,7 @@ fi
 query="$(echo $query | sed 's/ /+/g')"
 
 #curl -s https://1337x.to/category-search/$query/Movies/1/ > $cachedir/tmp.html
-curl -s $baseurl/search/$query/1/ > $cachedir/tmp.html
+curl -s $baseurl/search/$query/Movies/1/ > $cachedir/tmp.html
 
 # Get Titles
 grep -o '<a href="/torrent/.*</a>' $cachedir/tmp.html |

@@ -18,7 +18,7 @@ For scraping, the script uses simple gnu utils like sed, awk, paste, cut.
 
 ## Requirements
 
-* [webtorrent](https://webtorrent.io/) - A tool to stream torrent. `npm install webtorrent-cli -g`
+* [webtorrent](https://webtorrent.io/) - A tool to stream torrent. `npm install webtorrent-cli -g` or `yay -S webtorrent-cli` for Arch Users
 
 ## Installation
 

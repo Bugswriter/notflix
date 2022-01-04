@@ -17,6 +17,7 @@ For scraping, the script uses simple gnu utils like sed, awk, paste, cut.
 ## Requirements
 
 * [webtorrent](https://webtorrent.io/) - A tool to stream torrent. `npm install webtorrent-cli -g`
+* [mpv](https://mpv.io/) - A tool to play videos from the command line.
 
 ## Installation
 

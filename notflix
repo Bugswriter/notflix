@@ -8,7 +8,7 @@ menu="dmenu -i -l 25"
 baseurl="https://1337x.wtf"
 cachedir="$HOME/.cache/notflix"
 
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
   query=$(dmenu -p "Search Torrent: " <&-)
 else
   query=$1

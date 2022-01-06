@@ -1,14 +1,12 @@
 <h1 align="center">NOTFLIX</h1>
-<p align="center">STOP DEGENERACY</p>
-
-Removed the emojis from the script as its kinda cringe imo and made it less able to search porn, by only searching movies and not everything in general. It makes it a lot harder to search and probably almost impossible so yeah. The major difference between this fork and the original is that you select the form of media you want (movie, tv, documentary, anime), this is because I just don't how to do it in a better way, where you can view all content simulatanousely on 1337x without accessing the degenerate content then besides the way I decided to implement it
+<p align="center">f@#k netflix use notflix a tool which search magnet links and stream it with webtorrent</p>
 
 ##
 <p align="center">
 <img src="./preview.gif" alt="Video Preview" width="500px">
 </p>
 
-> Watch BugsWriters video on it - [bugswriter's notflix](https://youtu.be/RFJCL9C46Mc)
+> Watch my video on this - [bugswriter's notflix](https://youtu.be/RFJCL9C46Mc)
 
 ### How does this work?
 
@@ -18,7 +16,7 @@ For scraping, the script uses simple gnu utils like sed, awk, paste, cut.
 
 ## Requirements
 
-* [webtorrent](https://webtorrent.io/) - A tool to stream torrent. `npm install webtorrent-cli -g` or `yay -S webtorrent-cli` for Arch Users
+* [webtorrent](https://webtorrent.io/) - A tool to stream torrent. `npm install webtorrent-cli -g`
 
 ## Installation
 

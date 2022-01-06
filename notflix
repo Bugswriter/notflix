@@ -9,12 +9,14 @@ baseurl="https://1337x.wtf"
 cachedir="$HOME/.cache/notflix"
 
 category=$(dmenu -p "Movies? TV? Documentaries? Anime? (1,2,3,4) [NO INPUT = MOVIES]: " <&-)
+#category=$(dmenu -p "Movies? TV? Documentaries? Anime? XXX? (1,2,3,4,5) [NO INPUT = MOVIES]: " <&-) # XXX Flag
 
 case $category in
 	"1") category="Movies";;
 	"2") category="TV";;
 	"3") category="Documentaries";;
 	"4") category="Anime";;
+#	"5") category="XXX";;  # XXX Flag
 	*) category="Movies";; 
 esac
 
@@ -26,7 +28,7 @@ fi
 
 query="$(echo $query | sed 's/ /+/g')"
 
-curl -s https://1337x.to/category-search/$query/Movies/1/ > $cachedir/tmp.html
+curl -s https://1337x.to/category-search/$query/$category/1/ > $cachedir/tmp.html
 #curl -s $baseurl/search/$query/Movies/1/ > $cachedir/tmp.html
 
 # Get Titles
@@ -35,7 +37,7 @@ grep -o '<a href="/torrent/.*</a>' $cachedir/tmp.html |
 
 result_count=$(wc -l $cachedir/titles.bw | awk '{print $1}')
 if [ "$result_count" -lt 1 ]; then
-  notify-send "No Result found. Try again" -i "NONE"
+  notify-send "😔 No Result found. Try again 🔴" -i "NONE"
   exit 0
 fi
 
@@ -67,10 +69,10 @@ LINE=$(paste -d\   $cachedir/size.bw $cachedir/seedleech.bw $cachedir/titles.bw 
   awk '{$1=$1; print}')
 
 if [ -z "$LINE" ]; then
-  notify-send "No Result selected. Exiting..." -i "NONE"
+  notify-send "😔 No Result selected. Exiting... 🔴" -i "NONE"
   exit 0
 fi
-notify-send "Searching Magnet seeds" -i "NONE"
+notify-send "🔍 Searching Magnet seeds 🧲" -i "NONE"
 url=$(head -n $LINE $cachedir/links.bw | tail -n +$LINE)
 fullURL="${baseurl}${url}/"
 
@@ -81,4 +83,4 @@ magnet=$(grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" $cachedir/tmp.html | head 
 webtorrent "$magnet" --mpv
 
 # Simple notification
-notify-send "Enjoy Watching" -i "NONE"
+notify-send "🎥 Enjoy Watching ☺️ " -i "NONE"

@@ -8,6 +8,18 @@ menu="dmenu -i -l 25"
 baseurl="https://1337x.wtf"
 cachedir="$HOME/.cache/notflix"
 
+category=$(dmenu -p "Movies? TV? Documentaries? Anime? (1,2,3,4) [NO INPUT = MOVIES]: " <&-)
+#category=$(dmenu -p "Movies? TV? Documentaries? Anime? XXX? (1,2,3,4,5) [NO INPUT = MOVIES]: " <&-) # XXX Flag
+
+case $category in
+	"1") category="Movies";;
+	"2") category="TV";;
+	"3") category="Documentaries";;
+	"4") category="Anime";;
+#	"5") category="XXX";;  # XXX Flag
+	*) category="Movies";; 
+esac
+
 if [ -z $1 ]; then
   query=$(dmenu -p "Search Torrent: " <&-)
 else
@@ -16,8 +28,8 @@ fi
 
 query="$(echo $query | sed 's/ /+/g')"
 
-#curl -s https://1337x.to/category-search/$query/Movies/1/ > $cachedir/tmp.html
-curl -s $baseurl/search/$query/1/ > $cachedir/tmp.html
+curl -s https://1337x.to/category-search/$query/$category/1/ > $cachedir/tmp.html
+#curl -s $baseurl/search/$query/Movies/1/ > $cachedir/tmp.html
 
 # Get Titles
 grep -o '<a href="/torrent/.*</a>' $cachedir/tmp.html |

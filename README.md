@@ -33,15 +33,15 @@ $ sudo chmod +x /usr/local/bin/notflix
 ## How to Use
 Since it can run in terminal too. There are two ways to use it:
 
+### Terminal  
+It is default in terminal so don't worry if you are using terminal.
+
 ### Dmenu
-It is default in Dmenu so don't worry if you are using dmenu.
+Because it is default in terminal just uncomment dmenu variable on ```line 8``` by just removing a ```#``` :
 
-### Terminal
-Because it is default in dmenu just comment dmenu variable on ```line 8``` by just adding a ```#``` :
+```#menu="dmenu -i -l 25"``` (before)
 
-```menu="dmenu -i -l 25"``` (before)
-
-```#menu="dmenu -i -l 25"``` (after)
+```menu="dmenu -i -l 25"``` (after)
 
 ## License
 This project is licensed under [GPL-3.0](https://raw.githubusercontent.com/Illumina/licenses/master/gpl-3.0.txt).

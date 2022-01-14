@@ -9,5 +9,5 @@ install:
 	@chmod 755 $(DESTDIR)$(PREFIX)/bin/notflix
 
 uninstall:
-	@rm -rf $(DESTDIR)$(PREFIX)/bin/notflix
+	@rm -f $(DESTDIR)$(PREFIX)/bin/notflix
 

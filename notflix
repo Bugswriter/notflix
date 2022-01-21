@@ -4,25 +4,32 @@
 
 mkdir -p $HOME/.cache/notflix
 
-menu="rofi -show -dmenu -theme gruvbox-dark -p Results"
-#menu="dmenu -i -l 25"
+DOWNLOAD_DIR="$HOME/Documents/Torrent"
+
 baseurl="https://1337x.wtf"
+
 cachedir="$HOME/.cache/notflix"
 
-if [ -z $1 ]; then
-  query=$(rofi -show -dmenu -theme dmenu -p "Search Torrent: ")
-  # don't show notification if the user haven't entered any query for search
-  if [ -z "$query" ]; then
-    exit 0;
-  fi
-else
-  query=$1
-fi
+LOG_FILE="$HOME/.cache/notflix/notflix_history"
 
-query="$(sed 's/ /+/g' <<<$query)"
+[[ -f "$LOG_FILE" ]] && LS="$(cat $LOG_FILE)" 
+[[ -z "$LS" ]] && LS=""
+
+PAGE=1
+
+scrape()
+{
+
+S_QRY="$(echo "$QUER_Y" | sed 's/[[:space:]]/_/g')"
+
+menu="fzf --no-preview --cycle --layout=reverse --header-first --header=Torrent-Results:($S_QRY/Page-$PAGE)"
+
+[[ -z "$QUER_Y" ]] && exit
+
+query="$(echo "$QUER_Y" | sed 's/ /+/g')"
 
 #curl -s https://1337x.to/category-search/$query/Movies/1/ > $cachedir/tmp.html
-curl -s $baseurl/search/$query/1/ > $cachedir/tmp.html
+curl -s $baseurl/search/$query/$PAGE/ --compressed > $cachedir/tmp.html
 
 # Get Titles
 grep -o '<a href="/torrent/.*</a>' $cachedir/tmp.html |
@@ -30,8 +37,8 @@ grep -o '<a href="/torrent/.*</a>' $cachedir/tmp.html |
 
 result_count=$(wc -l $cachedir/titles.bw | awk '{print $1}')
 if [ "$result_count" -lt 1 ]; then
-  notify-send "😔 No Result found. Try again 🔴" -i "NONE"
-  exit 0
+ echo "No Result found!" 
+ exit 0
 fi
 
 # Seeders and Leechers
@@ -55,17 +62,26 @@ sed 's/\./ /g; s/\-/ /g' $cachedir/titles.bw |
 awk '{print NR " - ["$0"]"}' $cachedir/size.bw > $cachedir/tmp && mv $cachedir/tmp $cachedir/size.bw
 awk '{print "[S:"$1 ", L:"$2"]" }' $cachedir/seedleech.bw > $cachedir/tmp && mv $cachedir/tmp $cachedir/seedleech.bw
 
+[[ "$PAGE" > 1 ]] && echo "Previous Page" >> $cachedir/titles.bw 
+
+echo "Next Page" >> $cachedir/titles.bw
+
 # Getting the line number
-LINE=$(paste -d\   $cachedir/size.bw $cachedir/seedleech.bw $cachedir/titles.bw |
-  $menu |
-  cut -d\- -f1 |
-  awk '{$1=$1; print}')
+LINEO=$(paste -d\   $cachedir/size.bw $cachedir/seedleech.bw $cachedir/titles.bw | sed 's/^ //g' | $menu )
+
+LINE=$( echo "$LINEO" | cut -d\- -f1 | awk '{$1=$1; print}')
 
 if [ -z "$LINE" ]; then
-  notify-send "😔 No Result selected. Exiting... 🔴" -i "NONE" -t 800
-  exit 0
-fi
-notify-send "🔍 Searching Magnet seeds 🧲" -i "NONE"
+exit 0 
+fi 
+
+# Next Page
+[[ "$LINE" = "Next Page" ]] && PAGE=$(($PAGE+1)) && scrape
+
+#Previous Page
+[[ "$LINE" = "Previous Page" ]] && PAGE="$(($PAGE-1))" && scrape
+
+
 url=$(head -n $LINE $cachedir/links.bw | tail -n +$LINE)
 fullURL="${baseurl}${url}/"
 
@@ -73,7 +89,38 @@ fullURL="${baseurl}${url}/"
 curl -s $fullURL > $cachedir/tmp.html
 magnet=$(grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" $cachedir/tmp.html | head -n 1) 
 
-webtorrent "$magnet" --mpv
+[[ -z "$magnet" ]] && echo "Can't Get the Link!" && exit
 
-# Simple notification
-notify-send "🎥 Enjoy Watching ☺️ " -i "NONE"
+PROMPTO="$(echo -e "Open\nDownload" | $menu)"
+
+LOG()
+{
+  echo "$LINEO" > $LOG_FILE
+}
+
+case $PROMPTO in
+  Open)
+    LOG
+    webtorrent "$magnet" --mpv 
+    exit
+    ;;
+  Download) 
+    echo -e "Downloading $S_QRY in $DOWNLOAD_DIR\n"
+    LOG
+    webtorrent download --verbose "$magnet" --out "$DOWNLOAD_DIR"
+    exit
+    ;;
+  *)
+    ;;
+
+  esac
+
+exit
+
+}
+
+
+
+[[ -z "$@" ]] && read -r -p "Last Torrent: $LS
+Search Torrent: " QUER_Y && scrape || QUER_Y="$@" && scrape 
+

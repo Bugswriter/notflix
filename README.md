@@ -12,7 +12,7 @@
 ## 
 
 <p align="center">
-<img src="./preview.gif" alt="Video Preview" width="500px">
+<img src="./preview.gif" alt="Video Preview" width="100%">
 </p>
 
 ## Requirements

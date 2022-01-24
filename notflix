@@ -68,7 +68,8 @@ fullURL="${baseurl}${url}/"
 curl -s $fullURL > $cachedir/tmp.html
 magnet=$(grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" $cachedir/tmp.html | head -n 1) 
 
-webtorrent "$magnet" --mpv
 
-# Simple notification
-notify-send "🎥 Enjoy Watching ☺️ " -i "NONE"
+choice=$(printf "Stream\n Download" | dmenu -i )
+[ $choice = Stream ] && webtorrent "$magnet" --mpv & notify-send "Enjoy Watching"
+[ $choice = Download ] && transmission-remote -a "$magnet" & notify-send "Starting Download..."
+

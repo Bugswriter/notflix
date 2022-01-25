@@ -1,5 +1,5 @@
 <h1 align="center">NOTFLIX</h1>
-<p align="center">f@#k netflix use notflix a tool which search magnet links and stream it with webtorrent</p>
+<p align="center">f@#k netflix use notflix a tool which search magnet links and stream it with peerflix</p>
 
 ##  
 <p align="center">
@@ -9,12 +9,12 @@
 ### How does this work?
 
 This is a shell script. It scape 1337x and get the magnet link.
-After this it use [webtorrent](https://webtorrent.io/) to stream the video from magnet link.
+After this it use [peerflix](https://github.com/mafintosh/peerflix) to stream the video from magnet link.
 For scraping script use simple gnu utils like sed, awk, paste, cut.
 
 ## Requirements
 
-* [webtorrent](https://webtorrent.io/) - A tool to stream torrent. `sudo npm install webtorrent -g`
+* [peerflix](https://github.com/mafintosh/peerflix) - A tool to stream torrent. `sudo npm install peerflix -g`
 
 ## Installation
 

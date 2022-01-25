@@ -1,13 +1,16 @@
 <h1 align="center">NOTFLIX</h1>
 <p align="center">f@#k netflix use notflix a tool which search magnet links and stream it with peerflix</p>
 
-##  
+##
 <p align="center">
 <img src="./preview.gif" alt="Video Preview" width="500px">
 </p>
 
+> Watch my video on this - [bugswriter's notflix](https://youtu.be/RFJCL9C46Mc)
+
 ### How does this work?
 
+<<<<<<< HEAD
 This is a shell script. It scape 1337x and get the magnet link.
 After this it use [peerflix](https://github.com/mafintosh/peerflix) to stream the video from magnet link.
 For scraping script use simple gnu utils like sed, awk, paste, cut.
@@ -15,6 +18,15 @@ For scraping script use simple gnu utils like sed, awk, paste, cut.
 ## Requirements
 
 * [peerflix](https://github.com/mafintosh/peerflix) - A tool to stream torrent. `sudo npm install peerflix -g`
+=======
+This is a shell script. It scrapes 1337x and gets the magnet link.
+After this it uses [webtorrent](https://webtorrent.io/) to stream the video from the magnet link.
+For scraping, the script uses simple gnu utils like sed, awk, paste, cut.
+
+## Requirements
+
+* [webtorrent](https://webtorrent.io/) - A tool to stream torrent. `npm install webtorrent-cli -g`
+>>>>>>> 2eb7ba20e16d0ad34e9e99ff5d728b145a05ca97
 
 ## Installation
 

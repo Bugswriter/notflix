@@ -6,7 +6,7 @@
 <img src="./preview.gif" alt="Video Preview" width="500px">
 </p>
 
-> Watch my video on this - [bugswriter's notflix](https://youtu.be/RFJCL9C46Mc)
+> Watch this video to understand - [bugswriter's notflix](https://youtu.be/FbE19_omaWY)
 
 ### How does this work?
 

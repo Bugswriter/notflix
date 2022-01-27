@@ -1,6 +1,18 @@
-#!/bin/sh
+#/bin/sh
+
+die () {
+    # exit script if command is missing or invalid
+    err "$*"
+    exit 1
+}
+
+err () {
+    # red error msg
+    printf "\033[1;31m%s\033[0m\n" "$*" >&2
+}
 
 query=$(printf '%s' "$*" | tr ' ' '+' )
+[[ -z "$query" ]] && die "no search query is provided"
 movie=$(curl -s https://1337x.wtf/search/$query/1/ | grep -Eo "torrent\/[0-9]{7}\/[a-zA-Z0-9?%-]*/" | head -n 1)
 magnet=$(curl -s https://1337x.wtf/$movie | grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" | head -n 1)
 peerflix -k $magnet

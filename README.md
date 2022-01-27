@@ -1,5 +1,5 @@
 <h1 align="center">NOTFLIX</h1>
-<p align="center">f@#k Netflix... Use Notflix, a tool which searches magnet links and streams it with peerflix</p>
+<p align="center">f@#k Netflix! Use Notflix, a tool which searches magnet links and streams it with peerflix</p>
 
 ##
 <p align="center">

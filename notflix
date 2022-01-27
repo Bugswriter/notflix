@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 die () {
     # exit script if command is missing or invalid

@@ -10,13 +10,15 @@
 
 ### How does this work?
 
-This is a shell script. It scape 1337x and get the magnet link.
-After this it use [peerflix](https://github.com/mafintosh/peerflix) to stream the video from magnet link.
+This is a shell script. It scrapes 1337x and gets the magnet link.
+After this it uses [peerflix](https://github.com/mafintosh/peerflix) to stream the video from the magnet link.
 For scraping script use simple gnu utils like sed, awk, paste, cut.
 
 ## Requirements
 
-* [peerflix](https://github.com/mafintosh/peerflix) - A tool to stream torrent. `sudo npm install peerflix -g`
+* [peerflix](https://github.com/mafintosh/peerflix) - A tool to stream torrent. 
+
+* [fzf](https://github.com/junegunn/fzf) - A command-line fuzzy finder. 
 
 ## Installation
 

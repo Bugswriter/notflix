@@ -1,5 +1,5 @@
 <p align=center>
-<img src="https://capsule-render.vercel.app/api?type=soft&fontColor=995eff&text=freezboltz/notflix&height=150&fontSize=60&desc=steam%20media%20from%20peers&descAlignY=75&descAlign=60&color=00000000&animation=twinkling">
+<img src="https://capsule-render.vercel.app/api?type=soft&fontColor=995eff&text=freezboltz/notflix&height=150&fontSize=60&desc=stream%20media%20from%20peers&descAlignY=75&descAlign=60&color=00000000&animation=twinkling">
 <br>
 <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
 <img src="https://img.shields.io/badge/os-linux-brightgreen">

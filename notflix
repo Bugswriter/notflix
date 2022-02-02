@@ -35,7 +35,7 @@ curl -s "https://1337x.wtf$(grep "$(selecting)" "$CACHE/links")/" |
 }
 
 CACHE=${XDG_CACHE_HOME:-$HOME/.cache}/notflix && mkdir -p "$CACHE" >&-
-QUERY=$(dmenu -p search <&- | sed 's/ /+/g')
+QUERY=$(dmenu -p search <&- | tr ' ' '+')
 
 command -v webtorrent &&
 	webtorrent --mpv "$(getmagnet)" 2>&- ||

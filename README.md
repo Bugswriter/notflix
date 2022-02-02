@@ -6,13 +6,6 @@
 <br>
 </p>
 
-##
-<p align="center">
-<img src="./preview.gif" alt="Video Preview" width="500px">
-</p>
-
-> Watch this video to understand - [bugswriter's notflix](https://youtu.be/FbE19_omaWY)
-
 ### How does this work?
 
 This is a shell script. It scrapes 1337x and get the magnet link.
@@ -34,7 +27,11 @@ sudo curl -sL "https://raw.githubusercontent.com/freezboltz/notflix/main/notflix
 ```sh
 sudo chmod +x /usr/local/bin/notflix
 ```
-- To update, just do `curl` again, no need to `chmod` anymore.
+### Updating the script
+```sh
+notflix -U
+```
+### Uninstall
 - To uninstall, simply remove `notflix` from your **$PATH**, for example `sudo rm -f /usr/local/bin/notflix.
 
 ## License

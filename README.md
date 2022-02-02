@@ -1,5 +1,10 @@
-<h1 align="center">NOTFLIX</h1>
-<p align="center">f@#k netflix use notflix a tool which search magnet links and stream it with peerflix</p>
+<p align=center>
+<img src="https://capsule-render.vercel.app/api?type=soft&fontColor=995eff&text=freezboltz/notflix&height=150&fontSize=60&desc=steam%20media%20from%20peers&descAlignY=75&descAlign=60&color=00000000&animation=twinkling">
+<br>
+<a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
+<img src="https://img.shields.io/badge/os-linux-brightgreen">
+<br>
+</p>
 
 ##
 <p align="center">
@@ -24,8 +29,10 @@ For scraping script use simple gnu utils like sed, awk, paste, cut.
 cURL **notflix** to your **$PATH** and give execute permissions.
 
 ```sh
-$ sudo curl -sL "https://raw.githubusercontent.com/Bugswriter/notflix/master/notflix" -o /usr/local/bin/notflix
-$ sudo chmod +x /usr/local/bin/notflix
+sudo curl -sL "https://raw.githubusercontent.com/freezboltz/notflix/main/notflix" -o /usr/local/bin/notflix
+```
+```sh
+sudo chmod +x /usr/local/bin/notflix
 ```
 - To update, just do `curl` again, no need to `chmod` anymore.
 - To uninstall, simply remove `notflix` from your **$PATH**, for example `sudo rm -f /usr/local/bin/notflix.

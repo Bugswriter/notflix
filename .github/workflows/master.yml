@@ -1,0 +1,25 @@
+name: 'Quality Assurance'
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run shellcheck with reviewdog
+      uses: reviewdog/action-shellcheck@master
+      env:
+        SHELLCHECK_OPTS: -s sh -o all -e 2250
+  whitespace:
+    name: Whitespace
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: harupy/find-trailing-whitespace@master
+  newline:
+    - name: newline-action
+      uses: Logerfo/newline-action@master

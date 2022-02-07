@@ -20,8 +20,8 @@ For scraping script use simple gnu utils like sed, awk, paste, cut.
 
 ## Installation
 
-### cURL
-cURL **notflix** to your **$PATH** and give execute permissions.
+### Curl;
+Curl **notflix** to your **$PATH** and give execute permissions.
 
 ```sh
 $ sudo curl -sL "https://raw.githubusercontent.com/Bugswriter/notflix/master/notflix" -o /usr/local/bin/notflix

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-query=$(printf '%s' "$*" | tr ' ' '+' )
-movie=$(curl -s https://1337x.wtf/search/$query/1/ | grep -Eo "torrent\/[0-9]{7}\/[a-zA-Z0-9?%-]*/" | head -n 1)
-magnet=$(curl -s https://1337x.wtf/$movie | grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" | head -n 1)
+name=$(printf '%s' "$*" | sed 's/ /\%20/g')
+curl -s -o url.html https://thepiratebay.party/search/$name/1/99/200
+magnet=$(cat url.html|grep -E 'magnet\:\?'|sed 's/href\=/ /g'|awk '{print $2}'|sed 's/"/ /g'| head -n 1|sed 's/ //g')
 peerflix -l -k $magnet
